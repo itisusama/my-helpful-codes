@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Useful Code Pieces</title>
+
+  <!-- Prism.js CSS Theme -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f0f2f5;
+      color: #333;
+      padding: 2rem;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 2.5rem;
+      color: #2c3e50;
+    }
+
+    h2 {
+      margin-top: 2rem;
+      margin-bottom: 0.5rem;
+      font-size: 1.5rem;
+      color: #34495e;
+    }
+
+    .code-wrapper {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: #e74c3c;
+      color: #fff;
+      border: none;
+      padding: 0.4rem 0.9rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: bold;
+      transition: background-color 0.2s ease;
+      z-index: 1;
+    }
+
+    .copy-btn:hover {
+      background-color: #c0392b;
+    }
+
+    pre {
+      padding: 1rem;
+      border-radius: 10px;
+      overflow-x: auto;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    @media screen and (max-width: 600px) {
+      h1 { font-size: 2rem; }
+      h2 { font-size: 1.2rem; }
+      .copy-btn { font-size: 0.75rem; padding: 0.3rem 0.7rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Useful Code Pieces</h1>
+
+  <!-- Example 1 -->
+  <h2>npm packages for API purposes</h2>
+  <div class="code-wrapper">
+    <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+    <pre><code class="language-bash">npm install express mongoose dotenv cors</code></pre>
+  </div>
+
+  <!-- Example 2 -->
+  <h2>npm base packages for frontend</h2>
+  <div class="code-wrapper">
+    <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+    <pre><code class="language-bash">npm install react-router-dom lucide-react tailwindcss@latest @tailwindcss/vite@latest daisyui@latest</code></pre>
+  </div>
+
+  <!-- Example 3 -->
+  <h2>Basic Router Structure (JSX)</h2>
+  <div class="code-wrapper">
+    <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+    <pre><code class="language-jsx">
+import React from 'react'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import CreateToDo from './pages/CreateToDo'
+import UpdateToDo from './pages/updateToDo'
+
+const App = () =&gt; {
+  return (
+    &lt;div&gt;
+      &lt;Router&gt;
+        &lt;Routes&gt;
+          &lt;Route path="/" element=&#123;&lt;CreateToDo /&gt;&#125; /&gt;
+          &lt;Route path="/update" element=&#123;&lt;UpdateToDo /&gt;&#125; /&gt;
+        &lt;/Routes&gt;
+      &lt;/Router&gt;
+    &lt;/div&gt;
+  )
+}
+
+export default App
+    </code></pre>
+  </div>
+
+  <h2>Cloudinary Image Upload with React</h2>
+<div class="code-wrapper">
+  <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+  <pre><code class="language-jsx">
+const [imageURL, setImageURL] = useState('');
+const [uploading, setUploading] = useState(false);
+
+const handleUpload = async (event) =&gt; {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  setUploading(true);
+
+  const data = new FormData();
+  data.append('file', file);
+  data.append('upload_preset', 'myimages'); // replace with your actual preset
+
+  const res = await fetch('https://api.cloudinary.com/v1_1/dp5assqjg/image/upload', {
+    method: 'POST',
+    body: data,
+  });
+
+  const json = await res.json();
+  setImageURL(json.secure_url);
+  setUploading(false);
+};
+  </code></pre>
+</div>
+
+
+  <!-- Prism.js + JSX support -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js"></script>
+
+  <!-- Copy-to-Clipboard Logic -->
+  <script>
+    function copyToClipboard(button) {
+      const code = button.nextElementSibling.querySelector('code').innerText;
+      navigator.clipboard.writeText(code.trim())
+        .then(() => {
+          button.textContent = 'Copied!';
+          setTimeout(() => (button.textContent = 'Copy'), 2000);
+        })
+        .catch(err => {
+          console.error('Copy failed', err);
+        });
+    }
+  </script>
+
+</body>
+</html>
